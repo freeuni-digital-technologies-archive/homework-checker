@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "workspaces": [
+    "dt-types",
+    "dt-utils",
+    "classroom-api",
+    "jskarel",
+    "website-tester",
+    "codehskarel-tester",
+    "main-module"
+  ],
+  "packageManager": "yarn@3.1.1"
+}
