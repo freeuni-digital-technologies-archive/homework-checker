@@ -2,15 +2,15 @@ import { config } from './config'
 import { getArgs } from './cli'
 
 import { createDrive, getSubmissions, saveFile, StudentList, Authenticator } from 'classroom-api'
-import { Run } from './runs'
+import {Run, RunOpts} from './runs'
 import { partitionResults } from './partitions'
 
 import { getSubmissionsWithResults } from "./homeworkChecker";
+import {HwConfig} from "./homework";
 
 
 
-async function main() {
-    const  { hw, runOpts } = getArgs()
+export async function main(hw: HwConfig, runOpts: RunOpts) {
     const run = new Run(hw, runOpts)
     const auth = new Authenticator(config.CLASSROOM_TOKEN_PATH, config.CLASSROOM_CREDENTIALS_PATH)
     const drive = await createDrive(auth);
@@ -28,5 +28,9 @@ async function main() {
 }
 
 
-main()
-    .then(e => console.log("done."))
+if (require.main == module) {
+    const  { hw, runOpts } = getArgs()
+    main(hw, runOpts)
+        .then(e => console.log("done."))
+
+}
