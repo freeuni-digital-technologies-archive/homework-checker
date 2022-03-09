@@ -11,7 +11,7 @@
 
 კლონირების შემდეგ
 ```shell
-./build_all.sh
+yarn
 ```
 
 ## module list
