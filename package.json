@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "postinstall": "./scripts/setup.sh"
+    "postinstall": "./scripts/setup.sh",
+    "pull-request": "hub pull-request -p -b freeuni-digital-technologies:main -i "
   },
   "private": true,
   "workspaces": [
