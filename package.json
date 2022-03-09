@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "postinstall": "./setup.sh"
+    "postinstall": "./scripts/setup.sh"
   },
   "private": true,
   "workspaces": [
