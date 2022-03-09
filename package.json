@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "preinstall": "./setup.sh"
+  },
   "private": true,
   "workspaces": [
     "dt-types",
