@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "postinstall": "./setup.sh"
+  },
   "private": true,
   "workspaces": [
     "dt-types",
