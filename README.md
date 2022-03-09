@@ -28,5 +28,5 @@ yarn
 
 ## server
 ```shell
-ssh emailid@***REMOVED***
+ssh emailid@server
 ```
