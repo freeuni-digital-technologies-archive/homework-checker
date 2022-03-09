@@ -12,6 +12,7 @@ You should rename your branch to a valid name and try again.
 Types include [FEATURE|BUGFIX|IMPROVEMENT|HOTFIX|QA].
 If you would like to rename the current branch run git branch -m <newName>".
 
+shopt -s nocasematch
 if [[ ! $local_branch =~ $valid_branch_regex ]] && [[ ! $local_branch =~ $branches_to_skip ]]
 then
     echo "$message"
