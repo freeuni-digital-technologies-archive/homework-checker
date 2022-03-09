@@ -1,18 +1,41 @@
+# Homework Checker
 
-# 2022 update
-ფაილები, რომელიც გჭრდებათ
-- classroom-api/token.json
-- classroom-api/credentials.json
-
-## პრერეკვიზიტები
+## გარემოს გამართვა
+### პრერეკვიზიტები
 - node >= 12
 - yarn
+- hub (github-ის cli)
 - windows-ის შემთხვევაში: git და git bash
 
-კლონირების შემდეგ
+### აუცილებელი ნაბიჯები
+1. კლონირება
+2. კლონირების შემდეგ გახსენი დირექტორია bash-ში და გაუშვი ბრძანება
 ```shell
 yarn
 ```
+3. credentials ფაილების გამართვა
+    - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე)
+    - გადაიტანე ფაილები token.json და credentials.json
+4. ssh გამართვა
+
+<!-- TODO add instructions -->
+
+## Development Workflow
+### issues, branches, pull requests
+- ახალი issue-ს სახელი github-ზე იწყება აქედან ერთ-ერთით:
+  - `FEATURE|BUGFIX|IMPROVEMENT|HOTFIX|QA`
+- შექმნის შემდეგ მარჯვნივ `Development` სექციაში დააჭირე `create new branch`, დააკოპირე სათაური
+- ლოკალურად გაუშვი
+```shell
+git pull
+git checkout origin/<დაკოპირებული სახელი>
+```
+- როცა პროგრესი მზად არის გადასახედად, ვხსნით pull request-ს
+```shell
+yarn pull-request <issue_number>
+```
+- pull request-ს ვმერჯავთ squash commit-ით
+
 
 ## module list
 * classroom-api - გუგლის კლასრუმის ჯავასკრიპის ბიბლიოთეკაზე დაშენებული ლეიერი შედარებით მარტივად გამოსაყენებელი ფუნქციებით.
@@ -24,9 +47,3 @@ yarn
 * module-karel - ეს მოდული კრავს რეალურად ყველაფერს. იწერს ყველა სტუდენტის ამოხსნებს, უშვებს ყველას codehskarel-tester-ით resources/-ში არსებული ტესტებით და საბოლოოდ შედეგებს ინახავს `src/runs.ts`-ით.(data ფოლდერში შეინახავს რომლის დაკონფიგურირება ბოლოსკენ წერია.) 2021 წლის შემოდგომიდან შეიცავს არა მარტო კარელის, არამედ ჯენერიკ მოდულებს მაგრამ ჯერ სახელი არ შემიცვლია.
 * dt-homeworks - დავალებების კონფიგურაციები
 * dt-utils - რამდენიმე ფუნქცია რომელიც არ ვიცით სად სჯობს იყოს
-
-
-## server
-```shell
-ssh emailid@server
-```
