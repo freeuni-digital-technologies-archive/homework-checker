@@ -24,11 +24,11 @@ yarn
 ### issues, branches, pull requests
 - ახალი issue-ს სახელი github-ზე იწყება აქედან ერთ-ერთით:
   - `FEATURE|BUGFIX|IMPROVEMENT|HOTFIX|QA`
-- შექმნის შემდეგ მარჯვნივ `Development` სექციაში დააჭირე `create new branch`, დააკოპირე სათაური
+- შექმნის შემდეგ github issue-ს გვერდზე მარჯვნივ `Development` სექციაში დააჭირე `create new branch`, დააკოპირე სათაური
 - ლოკალურად გაუშვი
 ```shell
 git pull
-git checkout origin/<დაკოპირებული სახელი>
+git checkout --track origin/<დაკოპირებული სახელი>
 ```
 - როცა პროგრესი მზად არის გადასახედად, ვხსნით pull request-ს
 ```shell
