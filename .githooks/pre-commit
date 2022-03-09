@@ -3,15 +3,16 @@ LC_ALL=C
 
 local_branch="$(git rev-parse --abbrev-ref HEAD)"
 
-valid_branch_regex="^(feature|bugfix|improvement|hotfix|qa)\-[0-9]+\-[a-z0-9._-]+$"
-
-message="There is something wrong with your branch name. Branch names in this project must adhere to this contract: type-issueNumber-description.
+valid_branch_regex="^[0-9]+\-(FEATURE|BUGFIX|IMPROVEMENT|HOTFIX|QA)\-[a-z0-9._-]+$"
+branches_to_skip="^(main|master|develop)$"
+message="There is something wrong with your branch name.
+Branch names in this project must adhere to this contract: issueNumber-type-description.
 Your commit will be rejected.
 You should rename your branch to a valid name and try again.
-Types include [feature|bugfix|improvement|hotfix].
-If you would like to rename the current branch run git checkout -m <newName>".
+Types include [FEATURE|BUGFIX|IMPROVEMENT|HOTFIX|QA].
+If you would like to rename the current branch run git branch -m <newName>".
 
-if [[ ! $local_branch =~ $valid_branch_regex ]]
+if [[ ! $local_branch =~ $valid_branch_regex ]] && [[ ! $local_branch =~ $branches_to_skip ]]
 then
     echo "$message"
     exit 1
