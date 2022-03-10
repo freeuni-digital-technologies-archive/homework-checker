@@ -12,9 +12,10 @@ import { getSubmissionsWithResults } from "./homeworkChecker";
 async function main() {
     const  { hw, runOpts } = getArgs()
     const run = new Run(hw, runOpts)
-    const auth = new Authenticator(config.CLASSROOM_TOKEN_PATH, config.CLASSROOM_CREDENTIALS_PATH)
+    // const auth = new Authenticator(config.CLASSROOM_TOKEN_PATH, config.CLASSROOM_CREDENTIALS_PATH)
+    const auth = new Authenticator(hw.data_dir + "/credentials/token.json", hw.data_dir + "/credentials/credentials.json")
     const drive = await createDrive(auth);
-    const students = new StudentList(config.STUDENTS_DATA_PATH);
+    const students = new StudentList(hw.data_dir + "/students.json");
     // დროებით წავა
     const getSubjectSubmissions = (s: string, hw: string) => getSubmissions(s, hw, students, auth)
 
