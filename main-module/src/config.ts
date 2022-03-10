@@ -1,8 +1,9 @@
 import path from 'path'
-import { data_path} from "./runs";
 
 // ამ ფაილში უნდა იყოს მხოლოდ და მხოლოდ default პარამეტრები 
 // იმ ყველაფრის, რაც user-ს შეუძლია რომ გადმოაწოდოს
+
+export const data_path = path.resolve(__dirname, `../../../data`)
 
 export const config = {
     subject: '21f შესავალი ციფრულ ტექნოლოგიებში',
