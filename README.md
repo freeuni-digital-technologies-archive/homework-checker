@@ -32,7 +32,7 @@ git checkout --track origin/<დაკოპირებული სახე�
 ```
 - როცა პროგრესი მზად არის გადასახედად, ვხსნით pull request-ს
 ```shell
-yarn pull-request <issue_number>
+hub pull-request -i <issue number>
 ```
 - pull request-ს ვმერჯავთ squash commit-ით
 
