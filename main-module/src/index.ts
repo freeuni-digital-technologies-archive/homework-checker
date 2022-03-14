@@ -19,7 +19,7 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
     const getSubjectSubmissions = (s: string, hw: string) => getSubmissions(s, hw, students, auth)
 
     // TODO აქ ეს ორი await რაღაც სტრანნადაა და გადასახედია
-    const submissions = await getSubmissionsWithResults(config.subject,hw,run, drive, saveFile, getSubjectSubmissions);
+    const submissions = await getSubmissionsWithResults(config.subject, hw, run, drive, saveFile, getSubjectSubmissions);
 
     const results = await Promise.all(submissions)
     const output = partitionResults(results, hw)
@@ -32,5 +32,4 @@ if (require.main == module) {
     const  { hw, runOpts } = getArgs()
     main(hw, runOpts)
         .then(e => console.log("done."))
-
 }

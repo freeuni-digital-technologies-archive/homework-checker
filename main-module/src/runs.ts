@@ -4,7 +4,7 @@ import {Partitions} from './partitions'
 import {HwConfig} from './homework'
 import path from 'path'
 import {StudentList} from "classroom-api";
-import {config} from "./config";
+import {config} from "../lib/config";
 
 export interface RunOpts {
     trial?: boolean,
