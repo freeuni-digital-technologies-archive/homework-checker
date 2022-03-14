@@ -2,6 +2,7 @@ import fs, {existsSync} from 'fs'
 import {Submission} from 'dt-types'
 import {Partitions} from './partitions'
 import {HwConfig} from './homework'
+import path from 'path'
 import {StudentList} from "classroom-api";
 import {config, results_path, submissions_path} from "./config";
 
@@ -20,6 +21,9 @@ export function log<T>(e: T, message: string) {
     }
     return e
 }
+export const data_path = path.resolve(__dirname, `../../../data`)
+const results_path = `${data_path}/output`
+const submissions_path = `${data_path}/submissions`
 
 export class Run {
     static getLastDate(submissions: Submission[]): Date {
