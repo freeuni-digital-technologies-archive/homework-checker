@@ -1,9 +1,13 @@
 import path from 'path'
-import { data_path} from "./runs";
 import fs from "fs";
 
 // ამ ფაილში უნდა იყოს მხოლოდ და მხოლოდ default პარამეტრები 
 // იმ ყველაფრის, რაც user-ს შეუძლია რომ გადმოაწოდოს
+
+// this is temporary
+export const data_path = path.resolve(__dirname, `../../../data`)
+export const results_path = `${data_path}/output`
+export const submissions_path = `${data_path}/submissions`
 
 export const config = {
     subject: JSON.parse(fs.readFileSync(path.resolve(__dirname, `${data_path}/subject.json`)).toString()).subject,
