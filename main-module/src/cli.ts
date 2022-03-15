@@ -46,7 +46,12 @@ export function getArgs(hwName?: string): EnvOptions {
 
     /* Data Folder Path */
     const dataPath: string = args['data_dir']
-    hwConfig.data_dir = path.resolve(__dirname, dataPath)
+    if(!dataPath){
+        hwConfig.data_dir = path.resolve(__dirname, hwConfig.data_dir)
+    }else{
+        hwConfig.data_dir = path.resolve(__dirname, dataPath)
+    }
+
 
     if (!hwConfig) {
         console.log('provide valid submission id')
