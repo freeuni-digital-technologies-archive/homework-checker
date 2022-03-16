@@ -1,8 +1,7 @@
 import path from 'path'
 
-// ამ ფაილში უნდა იყოს მხოლოდ და მხოლოდ default პარამეტრები 
+// ამ ფაილში უნდა იყოს მხოლოდ და მხოლოდ default პარამეტრები
 // იმ ყველაფრის, რაც user-ს შეუძლია რომ გადმოაწოდოს
-
 
 // this is temporary
 export const data_path = path.resolve(__dirname, `../../../data`)
