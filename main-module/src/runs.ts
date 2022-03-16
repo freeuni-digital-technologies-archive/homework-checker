@@ -2,10 +2,8 @@ import fs, {existsSync} from 'fs'
 import {Submission} from 'dt-types'
 import {Partitions} from './partitions'
 import {HwConfig} from './homework'
-import path from 'path'
 import {StudentList} from "classroom-api";
-import {config} from "./config";
-import { data_path} from "./config";
+import {config, results_path, submissions_path} from "./config";
 
 export interface RunOpts {
     trial?: boolean,
@@ -22,9 +20,6 @@ export function log<T>(e: T, message: string) {
     }
     return e
 }
-
-const results_path = `${data_path}/output`
-const submissions_path = `${data_path}/submissions`
 
 export class Run {
     static getLastDate(submissions: Submission[]): Date {
@@ -102,10 +97,10 @@ export class Run {
     }
 
     private getPreviousRunInfo(): Partitions<Submission[]> {
-        if (!existsSync(this.hw.data_dir + "/students/json")) {
-            fs.writeFileSync(this.hw.data_dir + "/students/json", JSON.stringify([]), 'utf-8')
+        if (!existsSync(this.hw.data_dir + "/students.json")) {
+            fs.writeFileSync(this.hw.data_dir + "/students.json", JSON.stringify([]), 'utf-8')
         }
-        const students = new StudentList(this.hw.data_dir + "/students/json")
+        const students = new StudentList(this.hw.data_dir + "/students.json")
         const output: any = {}
         if (!this.lastRun) {
             return output
