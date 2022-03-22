@@ -14,7 +14,7 @@ import {HwConfig} from "../src/homework";
 import {Result, Submission} from "dt-types";
 import * as path from "path";
 import {main} from "../src";
-import {RunOpts} from "../lib/runs"; // ??
+import {RunOpts} from "../src/runs"; // ??
 
 
 const hw: HwConfig = {
@@ -299,13 +299,13 @@ describe("Integration Tests",() => {
     })
 
 
-    it('run hw4 test with using main test',  () => {
+    it.skip('run hw4 test with using main test',  () => {
         const fakeConfigHw4: HwConfig = {
             id: 'hw4',
             name: 'დავალება 4',
             module: 'karel',
             deadline: '2021-10-28',
-            configPath: '../../dt-homeworks/hw4/config.js',
+            configPath: '../dt-homeworks/hw4/config.js',
             testFileName: 'hw4tester.js',
             emailTemplates: {}
         };
@@ -315,10 +315,14 @@ describe("Integration Tests",() => {
                 rerun: false,
                 continue: null,
                 omit:  [''],
-                slice: 1,
+                slice: 10,
                 download: false
         };
-        main(fakeConfigHw4, fakeRunOpts).then().catch((ex) => console.log(ex));
+        return main(fakeConfigHw4, fakeRunOpts)
+            .then(output => {
+                console.log(output)
+            })
+            .catch((ex) => console.log(ex));
     })
 })
 

@@ -25,6 +25,7 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
     const output = partitionResults(results, hw)
 
     run.saveRunInfo(output)
+    return output
 }
 
 
