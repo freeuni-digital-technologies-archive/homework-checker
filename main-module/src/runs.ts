@@ -39,7 +39,7 @@ export class Run {
     private dataPath: string
     constructor(private hw: HwConfig, public opts: RunOpts, lastRun?: number) {
         this.path = `${results_path}/${hw.id}`
-        this.dataPath = hw.data_dir
+        this.dataPath = hw.dataDir
         this.moveDir = `${submissions_path}/${hw.id}`
         try {
             fs.mkdirSync(this.moveDir)
@@ -97,10 +97,10 @@ export class Run {
     }
 
     private getPreviousRunInfo(): Partitions<Submission[]> {
-        if (!existsSync(this.hw.data_dir + "/students.json")) {
-            fs.writeFileSync(this.hw.data_dir + "/students.json", JSON.stringify([]), 'utf-8')
+        if (!existsSync(this.hw.dataDir + "/students.json")) {
+            fs.writeFileSync(this.hw.dataDir + "/students.json", JSON.stringify([]), 'utf-8')
         }
-        const students = new StudentList(this.hw.data_dir + "/students.json")
+        const students = new StudentList(this.hw.dataDir + "/students.json")
         const output: any = {}
         if (!this.lastRun) {
             return output

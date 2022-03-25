@@ -13,9 +13,9 @@ import {HwConfig} from "./homework";
 export async function main(hw: HwConfig, runOpts: RunOpts) {
     const run = new Run(hw, runOpts)
     // const auth = new Authenticator(config.CLASSROOM_TOKEN_PATH, config.CLASSROOM_CREDENTIALS_PATH)
-    const auth = new Authenticator(hw.data_dir + "/credentials/token.json", hw.data_dir + "/credentials/credentials.json")
+    const auth = new Authenticator(hw.dataDir + "/credentials/token.json", hw.dataDir + "/credentials/credentials.json")
     const drive = await createDrive(auth);
-    const students = new StudentList(hw.data_dir + "/students.json");
+    const students = new StudentList(hw.dataDir + "/students.json");
     // დროებით წავა
     const getSubjectSubmissions = (s: string, hw: string) => getSubmissions(s, hw, students, auth)
 

@@ -22,7 +22,7 @@ export interface HwConfig {
     module: string,
     deadline: string, //YYYY-mm-dd preferably
     testFileName: string,
-    data_dir: string,
+    dataDir: string,
     configPath: string, // absolute path
     deadlineMinutes?: string, //T23:59:00+04:00 if not set 
     exceptions?: Partitions<string[]>,
@@ -82,7 +82,7 @@ function convertGivenHwConfigToInterface(preHwConfig: any, path: string){
         name: preHwConfig.classroomName,
         module: preHwConfig.module,
         deadline: preHwConfig.deadline,
-        data_dir: preHwConfig.data_dir,
+        dataDir: preHwConfig.data_dir,
         configPath: path,
         testFileName: preHwConfig.testFileName,
         emailTemplates: preHwConfig.emailTemplates
