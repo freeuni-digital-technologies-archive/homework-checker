@@ -1,11 +1,12 @@
-import { ClassroomApi } from './classroom-api'
-import { StudentList } from './students'
-import { Authenticator  } from './authenticate'
-import { Submission } from 'dt-types'
-import { fromResponse } from './submission'
+import {ClassroomApi} from './classroom-api'
+import {StudentList} from './students'
+import {Authenticator} from './authenticate'
+import {Submission} from 'dt-types'
+import {fromResponse} from './submission'
+import {drive_v3} from "googleapis";
 //export * from './types'
 export { ClassroomApi, downloadFile, downloadZip, createDrive, saveFile } from './classroom-api'
-import { drive_v3 } from "googleapis" ;
+
 export type Drive = drive_v3.Drive
 export * from './students'
 export * from './mailer'
@@ -29,4 +30,16 @@ export async function getSubmissions(subject: string, homework: string, studentL
 	}))
 
 	return submissions.filter(response => studentList.getStudentById(response.userId!)).map(s => fromResponse(s, studentList))
+}
+
+export async function getDueDate(subject: string, homeworkTitle: string, auth: Authenticator): Promise<void | Date> {
+	let classroom = await ClassroomApi.findClass(subject, auth);
+	return classroom.listCourseWork().then(courseWork => {
+		courseWork.filter(work => work.title === homeworkTitle).map(work =>{
+			console.log(work.dueDate)
+			work.dueDate
+		})
+	}).catch(ex => {
+		console.log("Error getting due date: ", ex);
+	})
 }

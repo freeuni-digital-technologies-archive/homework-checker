@@ -1,13 +1,12 @@
-import { config } from './config'
-import { getArgs } from './cli'
+import {config} from './config'
+import {getArgs} from './cli'
 
-import { createDrive, getSubmissions, saveFile, StudentList, Authenticator } from 'classroom-api'
+import {Authenticator, createDrive, getDueDate, getSubmissions, saveFile, StudentList} from 'classroom-api'
 import {Run, RunOpts} from './runs'
-import { partitionResults } from './partitions'
+import {partitionResults} from './partitions'
 
-import { getSubmissionsWithResults } from "./homeworkChecker";
+import {getSubmissionsWithResults} from "./homeworkChecker";
 import {HwConfig} from "./homework";
-
 
 
 export async function main(hw: HwConfig, runOpts: RunOpts) {
@@ -18,6 +17,8 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
     const students = new StudentList(hw.dataDir + "/students.json");
     // დროებით წავა
     const getSubjectSubmissions = (s: string, hw: string) => getSubmissions(s, hw, students, auth)
+
+    await getDueDate(config.subject, hw.name, auth).then(dueDate => console.log(dueDate));
 
     // TODO აქ ეს ორი await რაღაც სტრანნადაა და გადასახედია
     const submissions = await getSubmissionsWithResults(config.subject, hw, run, drive, saveFile, getSubjectSubmissions);
