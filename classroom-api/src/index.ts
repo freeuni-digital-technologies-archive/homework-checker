@@ -32,14 +32,13 @@ export async function getSubmissions(subject: string, homework: string, studentL
 	return submissions.filter(response => studentList.getStudentById(response.userId!)).map(s => fromResponse(s, studentList))
 }
 
-export async function getDueDate(subject: string, homeworkTitle: string, auth: Authenticator): Promise<void | Date> {
+export async function getDueDate(subject: string, homeworkTitle: string, auth: Authenticator): Promise<Date> {
 	let classroom = await ClassroomApi.findClass(subject, auth);
-	return classroom.listCourseWork().then(courseWork => {
-		courseWork.filter(work => work.title === homeworkTitle).map(work =>{
-			console.log(work.dueDate)
-			work.dueDate
-		})
-	}).catch(ex => {
-		console.log("Error getting due date: ", ex);
-	})
+	const courseWork = await classroom.listCourseWork();
+
+	return courseWork.filter(work => work.title === homeworkTitle).map((work): Date =>{
+		if(work.dueDate === undefined || work.dueDate.year === undefined  || work.dueDate.month === undefined || work.dueDate.day === undefined )
+			throw "Selected homework does not have due date"
+		return new Date(work.dueDate.year, work.dueDate.month, work.dueDate.day)
+	})[0]
 }
