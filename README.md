@@ -16,7 +16,15 @@ yarn
 3. credentials ფაილების გამართვა
     - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე)
     - გადაიტანე ფაილები token.json და credentials.json
-4. ssh გამართვა
+4. subject.json ფაილის შექმნა
+    - data დირექტორიაში უნდა შეიქმნას subject.json
+    - subject.json ფაილში უნდა ჩაიწეროს (22 მაგივრად შესაბამისი წელი):
+    ```shell
+    {
+      "subject" : "22s შესავალი ციფრულ ტექნოლოგიებში"
+    }
+    ```
+5. ssh გამართვა
 
 <!-- TODO add instructions -->
 
