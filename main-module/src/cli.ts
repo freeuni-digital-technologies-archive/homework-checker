@@ -26,7 +26,7 @@ export function getArgs(hwName?: string): EnvOptions {
     parser.addArgument(['-k', '--skip'], {help: 'skip check of id'})
     parser.addArgument(['-l', '--late'], {help: 'ignore late of id'})
     parser.addArgument(['-p', '--config-path'], {help: 'location of homework config'})
-    parser.addArgument(['-dr','--data-dir'], {help: "location of data folder"})
+    parser.addArgument(['-i','--data-dir'], {help: "location of data folder"})
     const args = parser.parseArgs()
     const hwId: string = hwName || args['hw']
 
