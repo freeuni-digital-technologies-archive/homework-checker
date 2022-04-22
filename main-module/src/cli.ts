@@ -44,6 +44,11 @@ export function getArgs(hwName?: string): EnvOptions {
 
     const hwConfig = readHomeworkConfiguration(configPath);
 
+    if (!hwConfig) {
+        console.log('provide valid submission id')
+        process.exit(1)
+    }
+
     /* Data Folder Path */
     const dataPath: string = args['data_dir']
     if(!dataPath){
@@ -52,11 +57,6 @@ export function getArgs(hwName?: string): EnvOptions {
         hwConfig.dataDir = path.resolve(__dirname, dataPath)
     }
 
-
-    if (!hwConfig) {
-        console.log('provide valid submission id')
-        process.exit(1)
-    }
     let download = true
     if (args.download == 'false') {
         download = false
