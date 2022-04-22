@@ -30,15 +30,15 @@ export function getArgs(hwName?: string): EnvOptions {
     const args = parser.parseArgs()
     const hwId: string = hwName || args['hw']
 
-    if (!hwId) {
-        console.log('provide submission id')
-        process.exit(1)
-    }
-
     /* Configuration Folder Path */
     let configPath: string = args['config_path']
     if (!configPath) {
-        configPath = defaultHomeworkPath(hwId);
+        if(!hwId) {
+            console.log('provide submission id')
+            process.exit(1)
+        }else{
+            configPath = defaultHomeworkPath(hwId);
+        }
     }
     configPath = path.resolve(__dirname, configPath)
 
