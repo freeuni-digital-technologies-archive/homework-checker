@@ -1,7 +1,7 @@
 import {config} from './config'
 import {getArgs} from './cli'
 
-import {Authenticator, createDrive, getDueDate, getSubmissions, saveFile, StudentList} from 'classroom-api'
+import {Authenticator, createDrive, getSubmissions, saveFile, StudentList} from 'classroom-api'
 import {Run, RunOpts} from './runs'
 import {partitionResults} from './partitions'
 
@@ -18,8 +18,6 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
     // დროებით წავა
     const getSubjectSubmissions = (s: string, hw: string) => getSubmissions(s, hw, students, auth)
 
-    await getDueDate(config.subject, hw.name, auth).then(dueDate => console.log(dueDate));
-
     // TODO აქ ეს ორი await რაღაც სტრანნადაა და გადასახედია
     const submissions = await getSubmissionsWithResults(config.subject, hw, run, drive, saveFile, getSubjectSubmissions);
 
@@ -34,5 +32,5 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
 if (require.main == module) {
     const  { hw, runOpts } = getArgs()
     main(hw, runOpts)
-        .then(e => console.log("done."))
+        .then(() => console.log("done."))
 }
