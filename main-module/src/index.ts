@@ -1,7 +1,7 @@
 import {config} from './config'
 import {getArgs} from './cli'
 
-import {Authenticator, createDrive, getSubmissions, saveFile, StudentList} from 'classroom-api'
+import {Authenticator, createDrive, getDueDate, getSubmissions, saveFile, StudentList} from 'classroom-api'
 import {Run, RunOpts} from './runs'
 import {partitionResults} from './partitions'
 
@@ -23,8 +23,8 @@ export async function main(hw: HwConfig, runOpts: RunOpts) {
 
     const results = await Promise.all(submissions)
     const output = partitionResults(results, hw)
-
-    run.saveRunInfo(output)
+    const dueDate = await getDueDate(config.subject, hw.name, auth)
+    run.saveRunInfo(output, dueDate)
     return output
 }
 
