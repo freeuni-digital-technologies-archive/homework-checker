@@ -11,7 +11,6 @@ function testSubmission(testPath: string, path: string): Promise<Result[]> {
         const contents = fse.readFileSync(path, 'utf-8')
         const html_string = marked.parse(contents)
         const document = parse(html_string)
-        console.log(document.getElementsByTagName('h2')[0].nextElementSibling.innerText)
         const results = assertions.map((assertion: any) => {
             try {
                 const res = assertion(document).__flags
@@ -35,6 +34,6 @@ export const moduleMarkdown: SubjectModule = {
     downloadAtInterval: downloadAtInterval,
     testSubmission: testSubmission,
     prepareSubmission: defaultPrepareSubmission,
-    asynchronousTest: false,
+    asynchronousTest: true,
     emailTemplates: {}
 }
