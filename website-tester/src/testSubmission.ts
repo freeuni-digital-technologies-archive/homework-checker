@@ -6,8 +6,8 @@ program
     .requiredOption('-f, --file <file>', 'submission file')
 program.parse(process.argv)
 
-const tester = new WebTester(program.testFile)
-const res = tester.testSubmission(program.file)
+const tester = new WebTester({targetFiles: ['index.html'], testsLocation: ''})
+const res = tester.testSubmission(program.file, false)
 
 if (process.send) {
     process.send(res)
