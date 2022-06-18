@@ -3,10 +3,12 @@ export class Attachment  {
         return `https://drive.google.com/a/freeuni.edu.ge/uc?authuser=${authUser}&id=${id}&export=download`
     }
 
+    public downloadUrl: string;
     constructor(
         public id: string,
-        public downloadUrl: string,
         public title: string
-    ) {}
+    ) {
+        this.downloadUrl = Attachment.getDownloadUrl(this.id)
+    }
 
 }
