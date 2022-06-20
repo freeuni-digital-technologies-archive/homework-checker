@@ -1,35 +1,45 @@
 const {expect} = require("chai");
 
+let extractId = elem => {return elem.id.substring(0, elem.id.indexOf('-'))}
+
 module.exports.assertions = [
     document => {
-        const headings = document.getElementsByTagName('h2')
-        return expect(headings).length(3, 'დოკუმენტში უნდა იყოს მხოლოდ სამი სათაური თემის')
+        const divs = document.getElementsByTagName("div")
+        return expect(divs).length(9, 'დოკუმენტში უნდა იყოს ცხრა სატესტო ელემენტი')
     },
-
     document => {
-        const headings = document.getElementsByTagName('h3')
-        return expect(headings).length(6, 'დოკუმენტში უნდა იყოს სამ-სამი მოტივაცია და რესურსები')
+        const divs = document.getElementsByTagName("div")
+        const titles = divs.filter(elem => {
+            return extractId(elem) === "title"
+        })
+        return expect(titles).length(3, 'დოკუმენტში უნდა იყოს სამი თემის სათაური')
     },
-
     document => {
-        const motivations = document.getElementsByTagName('h3').filter(heading => heading.innerText === 'მოტივაცია')
-
-        return expect(motivations).length(3, 'დოკუმენტში არის სამი მოტივაცია რომლებიც აუცილებლად სათაურების შემდეგაა')
+        const divs = document.getElementsByTagName("div")
+        const motivations = divs.filter(elem => {
+            return extractId(elem) === "motivation"
+        })
+        return expect(motivations).length(3, 'დოკუმენტში უნდა იყოს სამი მოტივაციის პარაგრაფი')
     },
-
     document => {
-        const resources = document.getElementsByTagName('h3').filter(heading => heading.innerText === 'რესურსები')
-
-        return expect(resources).length(3, 'სულ არის 3 რესურსების ელემენტი')
+        const divs = document.getElementsByTagName("div")
+        const resources = divs.filter(elem => {
+            return extractId(elem) === "resources"
+        })
+        return expect(resources).length(3, 'დოკუმენტში უნდა იყოს სამი რესურსების ჩამონათვალი')
     },
-
     document => {
-        const headings = document.getElementsByTagName('h2').filter(heading => {
+        const titles = document.getElementsByTagName("div").filter(elem => {
+            return extractId(elem) === "title"
+        })
+
+        const headings = titles.filter(title => {
             let motivationCount = 0;
             let resourceCount = 0;
-            while(heading.nextElementSibling.rawTagName !== 'h2') {
-                heading = heading.nextElementSibling
-                if(heading.innerText === 'მოტივაცია') {
+            let currTitle = title.nextElementSibling;
+            while(extractId(currTitle) !== 'title') {
+                let titleId = extractId(currTitle)
+                if(titleId === 'motivation') {
                     if(motivationCount > 0) {
                         return false
                     } else {
@@ -37,7 +47,7 @@ module.exports.assertions = [
                     }
                 }
 
-                if(heading.innerText === 'რესურსები') {
+                if(titleId === 'resources') {
                     if(resourceCount > 0) {
                         return false
                     } else {
@@ -45,17 +55,40 @@ module.exports.assertions = [
                     }
                 }
 
-                if(heading.nextElementSibling === null)
+                if(currTitle.nextElementSibling === null)
                     break
+
+                currTitle = currTitle.nextElementSibling
             }
             return true;
         })
 
         return expect(headings).length(3, 'თითოეულ თემაში არის მხოლოდ ერთი რესურები და ერთი მოტივაცია')
     },
-
     document => {
-        const resources = document.getElementsByTagName('h3').filter(heading => heading.innerText === 'რესურსები').filter(resource => {
+        let motivations = document.getElementsByTagName("div").filter(elem => {
+            return extractId(elem) === "motivation"
+        })
+
+        motivations = motivations.filter(motivation => {
+            let currElem = motivation.nextElementSibling
+            let childArray = []
+            while(extractId(currElem) !== 'resources') {
+                if(currElem.innerText !== '')
+                    childArray.push(currElem)
+                currElem = currElem.nextElementSibling
+            }
+            return childArray.length > 0
+        })
+
+        return expect(motivations).length(3, 'თითოეული მოტივაცია არ უნდა იყოს ცარიელი')
+    },
+    document => {
+        let resources = document.getElementsByTagName("div").filter(elem => {
+            return extractId(elem) === "resources"
+        })
+
+        resources = resources.filter(resource => {
                 if (resource.nextElementSibling === null) {
                     return false
                 }
@@ -79,6 +112,4 @@ module.exports.assertions = [
 
         return expect(resources).to.have.length.above(2, 'ყოველ რესურსების ელემენტში არის 3 უნიკალური ლინკი')
     },
-
-
 ]
