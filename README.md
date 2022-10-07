@@ -28,6 +28,25 @@ yarn
 
 <!-- TODO add instructions -->
 
+## პროგრამის გამოყენება
+### დავალების შემოწმება
+გადადი 'main-module' დირექტორიაში
+```sh
+yarn start --hw hwid # მაგ. --hw hw1
+```
+
+შესაძლებელია დავალებების ნაწილის გადმოწერა
+```sh
+yarn start --hw hwid --slice 10 # გადმოწერს პირველ 10 დავალებას
+```
+სხვა option-ებსთვის: `yarn start --help`
+
+მეილების ტექსტის ნახვა
+```sh
+yarn notify --hw hwid --trial true
+```
+
+
 ## Development Workflow
 ### issues, branches, pull requests
 - ახალი issue-ს სახელი github-ზე იწყება აქედან ერთ-ერთით:
