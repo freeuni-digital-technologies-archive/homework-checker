@@ -14,7 +14,7 @@
 yarn
 ```
 3. credentials ფაილების გამართვა
-    - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე)
+    - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე. ანუ homework-checker სადაც არის)
     - გადაიტანე ფაილები token.json და credentials.json
 4. subject.json ფაილის შექმნა
     - data დირექტორიაში უნდა შეიქმნას subject.json
