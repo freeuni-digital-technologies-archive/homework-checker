@@ -11,7 +11,7 @@ const res = tester.testSubmission(program.file, false)
 
 if (process.send) {
     process.send(res)
-    tester.finish()
+    tester.finish().then()
 } else {
     console.log(JSON.stringify(res, null, '\t'))
 }
