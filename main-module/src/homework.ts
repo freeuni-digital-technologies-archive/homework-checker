@@ -2,6 +2,7 @@ import { Partitions } from './partitions'
 import fs from "fs";
 import path from 'path'
 import { EmailTemplate } from './templates';
+import {defaultDataPath} from "./scripts/sumResults";
 
 
 
@@ -41,13 +42,16 @@ class HwConfigProp {
     public module: string = "";
 }
 
-/* Message Constructors for not existence properties and invalid properties */
+/* Message Constructors */
 
 function printPropertyDoesNotExistMessage(propertyName: string){
     console.log(`Config object does not have '${propertyName}' property`);
 }
 function printPropertyIllegalTypeMessage(propertyName: string, propertyType: string){
     console.log(`Property '${propertyName}' should be type of '${propertyType}'`);
+}
+function printInvalidTestFileNameMessage(testFileName:string){
+    console.log(`File "${testFileName}" not found`);
 }
 
 /* Checks if given configuration of homework is valid */
@@ -82,7 +86,7 @@ function convertGivenHwConfigToInterface(preHwConfig: any, path: string){
         name: preHwConfig.classroomName,
         module: preHwConfig.module,
         deadline: preHwConfig.deadline,
-        dataDir: preHwConfig.data_dir,
+        dataDir: preHwConfig.data_dir || defaultDataPath,
         configPath: path,
         testFileName: preHwConfig.testFileName,
         emailTemplates: preHwConfig.emailTemplates
@@ -101,6 +105,7 @@ export function readHomeworkConfiguration(configPath: string): HwConfig {
     }
     const preHwConfig = configFile;
     checkGivenHwConfigProps(preHwConfig);
+    checkTestFileValidity(absolutePath.substring(0, absolutePath.lastIndexOf("/")), preHwConfig.testFileName);
 
     return convertGivenHwConfigToInterface(preHwConfig, absolutePath);
 }
@@ -144,4 +149,12 @@ export function getCurrentHWs() {
         let deadline = new Date(hw.deadline+hw.deadlineMinutes)
         return now <= deadline && deadline < aWeekAfterNow
     })
+}
+
+function checkTestFileValidity(absolutePath:string, testFileName:string){
+    const testPath = `${absolutePath}/${testFileName}`;
+    if(!fs.existsSync(testPath)){
+        printInvalidTestFileNameMessage(testFileName)
+        process.exit(-1)
+    }
 }

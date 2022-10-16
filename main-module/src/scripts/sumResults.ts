@@ -1,13 +1,13 @@
 import fs from 'fs'
 import path from 'path'
-import {data_path} from '../config'
 import {DEFAULT_HW_CONFIG_PATH, readHomeworkConfiguration} from '../homework'
 import {mergeResults} from '../partitions'
 
-
+// TODO აქ არის წასაკითხი data path
 const defaultHwPath = path.resolve(__dirname, '../' + DEFAULT_HW_CONFIG_PATH)
-const defaultEmisPath = data_path + '/emis.csv'
-const defaultManualResultsPath = data_path + '/manualResults'
+export const defaultDataPath = path.resolve(__dirname, '../../../../data')
+const defaultEmisPath = defaultDataPath + '/emis.csv'
+const defaultManualResultsPath = defaultDataPath + '/manualResults'
 
 const defaultScore = 4
 const invalidEntries: any[] = []
@@ -104,6 +104,7 @@ function addHomeworkResults(results: any, studentNames: string[], homeworksPath:
     fs
         .readdirSync(homeworksPath, {withFileTypes: true})
         .filter(f => f.isDirectory() && !f.name.startsWith('.') && !f.name.includes('group-project'))
+        .filter(f => f.name !== 'hw8') // TODO remove
         .map(dir => dir.name)
         .map(hwName => {
             const hwPath = `${homeworksPath}/${hwName}/config.js`

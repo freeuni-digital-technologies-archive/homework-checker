@@ -3,7 +3,7 @@ import {Submission} from 'dt-types'
 import {Partitions} from './partitions'
 import {HwConfig} from './homework'
 import {StudentList} from "classroom-api";
-import {results_path, submissions_path} from "./config";
+import {config} from "./config";
 
 export interface RunOpts {
     trial?: boolean,
@@ -38,9 +38,10 @@ export class Run {
     readonly logFile: string
     private dataPath: string
     constructor(private hw: HwConfig, public opts: RunOpts, lastRun?: number) {
-        this.path = `${results_path}/${hw.id}`
+        const dataConfig = config(hw.dataDir)
+        this.path = `${dataConfig.results_path}/${hw.id}`
         this.dataPath = hw.dataDir
-        this.moveDir = `${submissions_path}/${hw.id}`
+        this.moveDir = `${dataConfig.submissions_path}/${hw.id}`
         try {
             fs.mkdirSync(this.moveDir)
         } catch (whatever) { }
@@ -52,7 +53,7 @@ export class Run {
         } catch (w) { }
         this.lastRun = lastRun || (runs.length ? runs[0] : 0)
         this.currentRun = this.lastRun + 1
-        try { fs.mkdirSync(results_path) } catch (whatever) { }
+        try { fs.mkdirSync(dataConfig.results_path) } catch (whatever) { }
         try { fs.mkdirSync(this.path) } catch (whatever) { }
     
         try {
@@ -127,7 +128,8 @@ export class Run {
                 log({}, `${partition}: ${info}`)
         }
     }
-    saveRunInfo(output: Partitions<Submission[]>) {
+
+    saveRunInfo(output: Partitions<Submission[]>, dueDate: Date) {
         this.logRunInfo(output)
         // if (this.opts.trial) {
         //     return
@@ -155,6 +157,7 @@ export class Run {
         if (!this.logs.length || currentLastDate.getTime() > this.lastRunDate.getTime()) {
             this.logs.push(currentLastDate)
         }
+
         console.log(submissions.length, length)
         if (this.opts.trial)
             return

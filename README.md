@@ -14,7 +14,7 @@
 yarn
 ```
 3. credentials ფაილების გამართვა
-    - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე)
+    - შექმენი `data/credentials` დირექტორია (იმ დირექტორიაში, სადაც დააკლონირე. ანუ homework-checker სადაც არის)
     - გადაიტანე ფაილები token.json და credentials.json
 4. subject.json ფაილის შექმნა
     - data დირექტორიაში უნდა შეიქმნას subject.json
@@ -27,6 +27,25 @@ yarn
 5. ssh გამართვა
 
 <!-- TODO add instructions -->
+
+## პროგრამის გამოყენება
+### დავალების შემოწმება
+გადადი 'main-module' დირექტორიაში
+```sh
+yarn start --hw hwid # მაგ. --hw hw1
+```
+
+შესაძლებელია დავალებების ნაწილის გადმოწერა
+```sh
+yarn start --hw hwid --slice 10 # გადმოწერს პირველ 10 დავალებას
+```
+სხვა option-ებსთვის: `yarn start --help`
+
+მეილების ტექსტის ნახვა
+```sh
+yarn notify --hw hwid --trial true
+```
+
 
 ## Development Workflow
 ### issues, branches, pull requests
