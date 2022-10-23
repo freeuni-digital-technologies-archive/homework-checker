@@ -20,6 +20,7 @@ describe('simple test case', () => {
     it('in case of calling start function from file it should still work', () => {
         const [result] = tester.testSubmission(`${path}/start.k`)
         expect(result.passed).be.true
+        expect(result.message).eql("karel should go to 3x1")
     })
 })
 
