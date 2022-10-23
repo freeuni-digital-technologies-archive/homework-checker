@@ -1,20 +1,21 @@
 import {google, classroom_v1, drive_v3} from 'googleapis'
-import { Authenticator } from './authenticate'
+import {Authenticator} from './authenticate'
 import fs from "fs";
 import path from "path";
 
 export const downloadError: string = "error saving downloaded file"
+
 export function downloadFile(drive: drive_v3.Drive, id: string, path?: string): Promise<any> {
     return new Promise((resolve, reject) => {
         drive.files.get({
             fileId: id,
             alt: 'media'
         }, {responseType: 'stream'}, (err, res) => {
-	    if (err ||  !res) {
-	    	if (path) console.log(path)
-		console.log(id + ': Drive API returned an error :' + err)
+            if (err || !res) {
+                if (path) console.log(path)
+                console.log(id + ': Drive API returned an error :' + err)
                 reject(downloadError)
-		return // 😶
+                return // 😶
             }
             resolve(res!.data)
         })
@@ -26,23 +27,23 @@ export function downloadZip(drive: drive_v3.Drive, id: string, path: string): Pr
 }
 
 export function saveFile(drive: drive_v3.Drive, id: string, filePath: string): Promise<string> {
-	console.log(id, filePath)
+    console.log(id, filePath)
     return downloadFile(drive, id, filePath)
         .then((dataStream: any) => {
             return new Promise((resolve, reject) => {
                 const dest = fs.createWriteStream(filePath);
                 dataStream
-                  .on('end', () => {
-                    console.log('Done downloading file: ' + filePath);
-                    dest.close();
-                    setTimeout(()=>resolve(filePath), 100) // weird erorrs occur without this timeout
-                    // resolve(filePath);
-                  })
-                  .on('error', (err: any) => {
-                    console.error('Error downloading file path=' + filePath + ' id=' + id);
-                    reject(err);
-                  })
-                  .pipe(dest)
+                    .on('end', () => {
+                        console.log('Done downloading file: ' + filePath);
+                        dest.close();
+                        setTimeout(() => resolve(filePath), 100) // weird erorrs occur without this timeout
+                        // resolve(filePath);
+                    })
+                    .on('error', (err: any) => {
+                        console.error('Error downloading file path=' + filePath + ' id=' + id);
+                        reject(err);
+                    })
+                    .pipe(dest)
                     .on('error', (err: any) => {
                         if (err.code == 'ENOENT') {
                             fs.mkdirSync(path.dirname(filePath), {recursive: true})
@@ -50,14 +51,14 @@ export function saveFile(drive: drive_v3.Drive, id: string, filePath: string): P
                             throw err
                         }
                     })
-                    // pipe to write stream
+                // pipe to write stream
             });
         })
 }
 
 export function createDrive(
-                            authenticator: Authenticator,
-                            ): Promise<drive_v3.Drive> {
+    authenticator: Authenticator,
+): Promise<drive_v3.Drive> {
     return authenticator.authenticate()
         .then(auth => google.drive({version: 'v3', auth}))
 }
@@ -68,11 +69,11 @@ function listCourses(classroom: classroom_v1.Classroom)
         classroom.courses.list({
             pageSize: 10,
         }, (err, res) => {
-		// ამ reject-ს სადღაც ვაიგნორებ (:
-        if (err) {
-            console.log(err)
-            reject('The API returned an error: ' + err)
-        }
+            // ამ reject-ს სადღაც ვაიგნორებ (:
+            if (err) {
+                console.log(err)
+                reject('The API returned an error: ' + err)
+            }
             const courses = res!.data.courses;
             if (courses && courses.length) {
                 resolve(courses)
@@ -87,10 +88,12 @@ export async function getDueDate(subject: string, homeworkTitle: string, auth: A
     let classroom = await ClassroomApi.findClass(subject, auth);
     const courseWork = await classroom.listCourseWork();
 
-    return courseWork.filter(work => work.title === homeworkTitle).map((work): Date =>{
-        if(work.dueDate === undefined)
+    return courseWork.filter(work => work.title === homeworkTitle).map((work): Date => {
+        if (work.dueDate === undefined || work.dueTime === undefined)
             throw "Selected homework does not have due date"
-        return new Date(work.dueDate.year!, work.dueDate.month!, work.dueDate.day)
+        // Offset is difference between UTC time and client time in minutes. dueTime object gives UTC time, so we adjust for that.
+        let offset = new Date().getTimezoneOffset();
+        return new Date(work.dueDate.year!, work.dueDate.month!, work.dueDate.day, work.dueTime.hours, work.dueTime.minutes! - offset);
     })[0]
 }
 
