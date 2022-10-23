@@ -7,6 +7,7 @@ import { Config } from 'dt-types'
 function replaceCustomStructures(fileName: string) {
     let contents = fs.readFileSync(fileName, 'utf8')
     const newFile = fileName + '.fixed'
+    contents = contents.replace(/\nstart\(\)(;)*/g, '');
     // let functionsStart = contents.indexOf('\nfunction')
     // if (functionsStart < 0) functionsStart = contents.length
     // const commands = contents.substr(0, functionsStart)
