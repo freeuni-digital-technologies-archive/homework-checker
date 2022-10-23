@@ -17,6 +17,11 @@ describe('simple test case', () => {
         expect(result.error).be.true
         expect(result.message).eql("there is a problem with the file")
     })
+    it('in case of calling start function from file it should still work', () => {
+        const [result] = tester.testSubmission(`${path}/start.k`)
+        expect(result.passed).be.true
+        expect(result.message).eql("karel should go to 3x1")
+    })
 })
 
 
