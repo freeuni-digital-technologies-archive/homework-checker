@@ -14,8 +14,8 @@ describe('test case', () => {
             .then(courseWork => Promise.all(courseWork.map(assignment => getDueDate(className, assignment.title, auth))))
             .then(dueDates => {
                 // console.log(dueDates)
-                expect(dueDates[0].toString()).to.equal('Thu Nov 24 2022 23:59:00 GMT+0400 (Georgia Standard Time)');
+                expect(dueDates[0].toString()).to.equal('Mon Nov 28 2022 23:59:00 GMT+0400 (Georgia Standard Time)');
             });
-    }).timeout(10000);
+    }).timeout(30000);
 })
 
