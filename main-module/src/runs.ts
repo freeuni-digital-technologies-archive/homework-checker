@@ -12,7 +12,8 @@ export interface RunOpts {
     continue?: string,
     slice?: number,
     download?: boolean,
-    omit?: string[]
+    omit?: string[],
+    logOutput?: boolean
 }
 export function log<T>(e: T, message: string) {
     if (process.env.NODE_ENV === 'production') {
