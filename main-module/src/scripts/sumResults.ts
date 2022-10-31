@@ -1,16 +1,15 @@
 import fs from 'fs'
 import path from 'path'
-import {DEFAULT_HW_CONFIG_PATH, readHomeworkConfiguration} from '../homework'
+import {readHomeworkConfiguration} from '../homework'
 import {mergeResults} from '../partitions'
 import {logProjectResults, projectFilesPath, ProjectResult, projectsPath} from "./sumProjectResults";
 import {ProjectsInfo} from "../types/projectsInfo";
 import fse from "fs-extra";
+import {defaults} from "../config";
 
-// TODO აქ არის წასაკითხი data path
-const defaultHwPath = path.resolve(__dirname, '../' + DEFAULT_HW_CONFIG_PATH)
-export const defaultDataPath = path.resolve(__dirname, '../../../../data')
-const defaultEmisPath = defaultDataPath + '/emis.csv'
-const defaultManualResultsPath = defaultDataPath + '/manualResults'
+const defaultHwPath = defaults.hwConfigPath
+const defaultEmisPath = path.join(defaults.dataDir, '/emis.csv')
+const defaultManualResultsPath = path.join(defaults.dataDir, '/manualResults')
 
 const defaultScore = 4
 const invalidEntries: any[] = []

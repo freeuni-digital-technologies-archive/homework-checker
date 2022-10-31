@@ -2,17 +2,11 @@ import { Partitions } from './partitions'
 import fs from "fs";
 import path from 'path'
 import { EmailTemplate } from './templates';
-import {defaultDataPath} from "./scripts/sumResults";
+import {defaults} from "./config";
 
-
-
-// TODO ესენი გადასატანია config-ში სავარაუდოდ (ოღონდ სხვა ფორმით)
-/* Default Directory For Homework Configuration Files */
-export const DEFAULT_HW_CONFIG_PATH: string =  `../../dt-homeworks`;
-const DEFAULT_HW_CONFIG_FILENAME: string = "config.js";
 
 export function defaultHomeworkPath(hwId: string) {
-    return `${DEFAULT_HW_CONFIG_PATH}/${hwId}/${DEFAULT_HW_CONFIG_FILENAME}`
+    return path.join(defaults.hwConfigPath, hwId, defaults.configFileName)
 }
 
 // TODO არასავალდებულო პარამეტრები არ სწორდება ასეთი ლოგიკით
@@ -23,7 +17,7 @@ export interface HwConfig {
     module: string,
     deadline: string, //YYYY-mm-dd preferably
     testFileName: string,
-    dataDir: string,
+    dataDir?: string,
     configPath: string, // absolute path
     deadlineMinutes?: string, //T23:59:00+04:00 if not set 
     exceptions?: Partitions<string[]>,
@@ -86,7 +80,7 @@ function convertGivenHwConfigToInterface(preHwConfig: any, path: string){
         name: preHwConfig.classroomName,
         module: preHwConfig.module,
         deadline: preHwConfig.deadline,
-        dataDir: preHwConfig.data_dir || defaultDataPath,
+        dataDir: preHwConfig.data_dir || defaults.dataDir,
         configPath: path,
         testFileName: preHwConfig.testFileName,
         emailTemplates: preHwConfig.emailTemplates
@@ -122,12 +116,12 @@ export function readHomeworkConfiguration(configPath: string): HwConfig {
 function getConfigsOfCurrentHomeworks(): HwConfig[] {
     let homeworks: HwConfig[] = [];
 
-    fs.readdirSync( path.resolve(__dirname, DEFAULT_HW_CONFIG_PATH) ).forEach(subfolder => {
+    fs.readdirSync(defaults.hwConfigPath).forEach(subfolder => {
 
         if(subfolder == "README.md" || subfolder == ".git")
             return;
 
-        let currentConfigPath: string = `${DEFAULT_HW_CONFIG_PATH}/${subfolder}/${DEFAULT_HW_CONFIG_FILENAME}`;
+        let currentConfigPath: string = defaultHomeworkPath(subfolder);
         let currentHomeworkConfig: HwConfig = readHomeworkConfiguration(currentConfigPath);
         homeworks.push(currentHomeworkConfig);
     })

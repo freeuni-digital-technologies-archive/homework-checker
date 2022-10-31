@@ -1,15 +1,19 @@
 import {HwConfig} from "../src/homework";
 import {RunOpts} from "../src/runs";
 import {check} from "../src";
+import {expect} from 'chai';
+import path = require('path');
 
 describe('', () => {
-    it('run hw3 test with using main test',  () => {
+    // use it.only when you want to run
+    // always replace with it.skip when you commit
+    it.skip('run hw3 test with using main test',  () => {
         const fakeConfigHw4: HwConfig = {
             id: 'hw3',
             name: 'დავალება 3',
             module: 'karel',
             deadline: '2022-10-28',
-            dataDir: '../../data',
+            dataDir: path.resolve(__dirname, '../../../data'),
             configPath: '../dt-homeworks/hw3/config.js',
             testFileName: 'hw3tester.js',
             emailTemplates: {}
@@ -20,8 +24,8 @@ describe('', () => {
             rerun: false,
             continue: null,
             omit:  [''],
-            slice: 10,
-            download: false
+            slice: 5,
+            download: true
         };
         return check(fakeConfigHw4, fakeRunOpts)
             .then(output => {
