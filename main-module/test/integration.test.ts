@@ -25,8 +25,11 @@ describe('', () => {
         };
         return check(fakeConfigHw4, fakeRunOpts)
             .then(output => {
-                console.log(output)
+                expect(output.error).length(0)
             })
-            .catch((ex) => console.log(ex));
+            .catch((ex) => {
+                console.log(ex)
+                expect(ex).to.be.null
+            });
     }).timeout(20000)
 })
