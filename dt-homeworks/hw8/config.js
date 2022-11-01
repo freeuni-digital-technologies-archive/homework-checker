@@ -2,7 +2,7 @@ module.exports = {
     id: 'hw8',
     classroomName: 'დავალება 8',
     deadline: '2021-12-31',
-    testFileName: '../../../webHwInterface/server-tests/hw8/server.js',
+    testFileName: '../../../jspilot/server-tests/hw8/server.js',
     module: 'web',
     emailTemplates: {
         passed: s => `
