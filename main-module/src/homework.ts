@@ -99,7 +99,7 @@ export function readHomeworkConfiguration(configPath: string): HwConfig {
     }
     const preHwConfig = configFile;
     checkGivenHwConfigProps(preHwConfig);
-    checkTestFileValidity(absolutePath.substring(0, absolutePath.lastIndexOf("/")), preHwConfig.testFileName);
+    checkTestFileValidity(path.dirname(absolutePath), preHwConfig.testFileName);
 
     return convertGivenHwConfigToInterface(preHwConfig, absolutePath);
 }
@@ -146,7 +146,7 @@ export function getCurrentHWs() {
 }
 
 function checkTestFileValidity(absolutePath:string, testFileName:string){
-    const testPath = `${absolutePath}/${testFileName}`;
+    const testPath = path.join(absolutePath, testFileName);
     if(!fs.existsSync(testPath)){
         printInvalidTestFileNameMessage(testFileName)
         process.exit(-1)
