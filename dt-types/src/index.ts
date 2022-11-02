@@ -3,4 +3,5 @@
 
 export * from './submission'
 export * from './attachment'
-export * from './codehskarel-tester'
+export * from './tester'
+export * from './google-apis'
