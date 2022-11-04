@@ -4,8 +4,3 @@ export interface Result {
     details?: string
     message: string
 }
-
-export interface Config {
-    karel?: any
-    world?: any
-}
