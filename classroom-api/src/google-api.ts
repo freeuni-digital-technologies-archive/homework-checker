@@ -9,6 +9,7 @@ import {Drive, GoogleApi, Classroom} from "dt-types";
 export class GoogleApis implements GoogleApi {
     public classroom: Classroom
     public drive: Drive
+
     constructor(
         private classroomApi: classroom_v1.Classroom,
         private driveApi: drive_v3.Drive,
@@ -44,9 +45,9 @@ export class GoogleDrive implements Drive {
                 fileId: id,
                 alt: 'media'
             }, {responseType: 'stream'}, (err, res) => {
-                if (err ||  !res) {
+                if (err || !res) {
                     if (path) console.log(path)
-                    console.log(id + ': Drive API returned an error :' + err)
+                    console.log(id + ': Drive API returned an error :' + err!.message)
                     reject(downloadError)
                     return // 😶
                 }
@@ -65,11 +66,11 @@ export class GoogleDrive implements Drive {
                         .on('end', () => {
                             console.log('Done downloading file: ' + filePath);
                             dest.close();
-                            setTimeout(()=>resolve(filePath), 100) // weird erorrs occur without this timeout
+                            setTimeout(() => resolve(filePath), 100) // weird errors occur without this timeout
                             // resolve(filePath);
                         })
                         .on('error', (err: any) => {
-                            console.error('Error downloading file path=' + filePath + ' id=' + id);
+                            console.error(`Error downloading file, path= ${filePath}  id=${id})`)
                             reject(err);
                         })
                         .pipe(dest)
@@ -85,8 +86,6 @@ export class GoogleDrive implements Drive {
             })
     }
 }
-
-
 
 
 function findSubjectId(name: string, auth: string, classroomApi: classroom_v1.Classroom): Promise<string> {
