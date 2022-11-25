@@ -3,7 +3,6 @@ import path from 'path'
 const {downloadSubmissions} = require('./downloader')
 const {program} = require('commander')
 const {Authenticator} = require('./authenticate')
-const {StudentList} = require('./students')
 const fs = require('fs');
 const {setupGoogleApi} = require('classroom-api')
 
@@ -40,5 +39,5 @@ async function main() {
 
 if (require.main === module) {
     main()
-        .then(res => console.log('done'))
+        .then(_ => console.log('done'))
 }
