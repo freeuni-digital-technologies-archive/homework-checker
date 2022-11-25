@@ -1,26 +1,29 @@
 import {downloadSubmissions} from "../src/downloader";
-import {setupGoogleApi} from "../src";
-import {mock, instance, when} from "ts-mockito";
-import {Authenticator} from "../src";
-import {getSubject} from "../src/homework-downloader";
-import * as path from "path";
-import {GoogleApi, Classroom} from "dt-types";
-import {google} from "googleapis";
+import {GoogleApi} from "dt-types";
 import {submissions} from './downloader-test-data'
 import { GoogleClassroom } from '../src/classroom-api';
+import {GoogleDrive} from "../src/google-api";
+import {Arg, Substitute} from '@fluffy-spoon/substitute';
+import { expect } from 'chai';
 
-describe('download test', () => {
+describe('testing function to download submissions', () => {
     it('sample', () => {
-        const dataPath = "../../data";
-        const auth = new Authenticator(path.join(dataPath, 'credentials/token.json'), path.join(dataPath, 'credentials/credentials.json'))
-        return setupGoogleApi(auth, getSubject(dataPath), path.join(dataPath, 'students.json'))
-            .then(api => {
-                let classroomMock:Classroom = mock(GoogleClassroom)
-                api.classroom  = instance(classroomMock)
-                // @ts-ignore
-                when(classroomMock.getSubmissions('დავალება 3')).thenResolve(submissions)
-                return downloadSubmissions(api, {hwName: 'დავალება 3', pathToStore: dataPath + '/temp_output'})
-            })
-            .then(paths => console.log(path))
-    }).timeout(20000)
+        const pathToStore = './temp_output'
+        const drive = Substitute.for<GoogleDrive>();
+        const classroom = Substitute.for<GoogleClassroom>();
+        const api: GoogleApi = {
+            drive: drive,
+            classroom: classroom
+        }
+        // ეს საჭიროა იმიტომ რომ submissions ჯერ არაა ინტერფეისად გატანილი
+        // @ts-ignore
+        classroom.getSubmissions('დავალება 3').resolves(submissions)
+        const fileIds = submissions.map(s => s.attachment.id)
+        for (let id of fileIds) {
+            drive.saveFile(id, Arg.any()).resolves(id)
+        }
+
+        return downloadSubmissions(api, {hwName: 'დავალება 3', pathToStore: pathToStore})
+            .then(paths => expect(paths.sort()).eql(fileIds.sort()))
+    })
 })

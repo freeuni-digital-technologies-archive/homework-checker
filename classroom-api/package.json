@@ -27,6 +27,7 @@
     "unzipper": "^0.10.11"
   },
   "dependencies": {
+    "@fluffy-spoon/substitute": "^1.208.0",
     "dotenv": "^8.2.0",
     "googleapis": "39",
     "nodemailer": "^6.4.0",
