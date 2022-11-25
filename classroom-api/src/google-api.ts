@@ -62,26 +62,20 @@ export class GoogleDrive implements Drive {
             .then((dataStream: any) => {
                 return new Promise((resolve, reject) => {
                     const dest = fs.createWriteStream(filePath);
+                    if (!fs.existsSync(path.dirname(filePath))) {
+                        fs.mkdirSync(path.dirname(filePath), {recursive: true})
+                    }
                     dataStream
                         .on('end', () => {
                             console.log('Done downloading file: ' + filePath);
                             dest.close();
                             setTimeout(() => resolve(filePath), 100) // weird errors occur without this timeout
-                            // resolve(filePath);
                         })
                         .on('error', (err: any) => {
                             console.error(`Error downloading file, path= ${filePath}  id=${id})`)
                             reject(err);
                         })
                         .pipe(dest)
-                        .on('error', (err: any) => {
-                            if (err.code == 'ENOENT') {
-                                fs.mkdirSync(path.dirname(filePath), {recursive: true})
-                            } else {
-                                throw err
-                            }
-                        })
-                    // pipe to write stream
                 });
             })
     }
