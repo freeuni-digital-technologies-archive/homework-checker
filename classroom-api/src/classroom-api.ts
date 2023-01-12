@@ -30,11 +30,13 @@ export class GoogleClassroom implements Classroom {
                         resolve(res!.data.studentSubmissions!.filter(response => response.id && response.userId))
                     })
                 })
-            ).then(async (submissions: classroom_v1.Schema$StudentSubmission[]) => {
-                await submissions.map(async response => {
+            )
+            .then((submissions: classroom_v1.Schema$StudentSubmission[]) => {
+                submissions.map(response => {
                     if (!this.studentList.getStudentById(response.userId!)) {
-                        const studentProfile = await this.getStudentProfile(response.userId!)
-                        this.studentList.add(studentProfile)
+                        this.getStudentProfile(response.userId!)
+                            .then(studentProfile => this.studentList.add(studentProfile))
+                            .catch(err => console.log(err))
                     }
                 })
                 return submissions
@@ -79,8 +81,7 @@ export class GoogleClassroom implements Classroom {
         return new Promise((resolve, reject) => {
             this.classroomApi.userProfiles.get({userId: id}, (err, res) => {
                 if (err) {
-                    reject(err)
-                    return // ff
+                    return reject(err)
                 }
                 resolve(new Profile(res!.data))
             })
