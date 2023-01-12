@@ -1,6 +1,6 @@
 // export ... Submission
 
-import { Attachment } from "./attachment"
+import {Attachment} from "./attachment"
 
 
 export class Submission {
@@ -48,8 +48,7 @@ export class Submission {
 		return this
 	}
 	private correctTitle() {
-		const title = this.attachment!.title
-		return title.toLowerCase().includes(this.emailId + '.k')
+		return this.attachment!.title.toLowerCase().includes(this.emailId + '.k')
 	}
 
 	private invalidCharacters() {

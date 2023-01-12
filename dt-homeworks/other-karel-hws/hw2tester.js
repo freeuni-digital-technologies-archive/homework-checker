@@ -55,7 +55,7 @@ module.exports.config = [
 
 function firstNonBeeper(karel) {
 	let nonBeeperx = 1
-	while(nonBeeperx <= karel.world.width && karel.world.beepers.filter(e => e.x == nonBeeperx && e.y == 1).length == 1){
+	while(nonBeeperx <= karel.world.width && karel.world.beepers.filter(e => e.x === nonBeeperx && e.y === 1).length === 1){
 		nonBeeperx += 1
 	}
 	return nonBeeperx
