@@ -1,4 +1,4 @@
-var testConfig = {
+const testConfig = {
 	postInputId: 'post_text',
 	newPostButton: 'new_post',
 	postsContainerId: 'post_container',
@@ -6,8 +6,8 @@ var testConfig = {
 	post: 'post',
 	postText: 'post_text'
 }
-var expect = chai.expect
-var assert = chai.assert
+const expect = chai.expect
+const assert = chai.assert
 class Tester {
 	constructor() {
 		this.postElem = ''
@@ -45,7 +45,7 @@ class Tester {
 		const text = Math.random()*100000
 		this.getPostsInput().value = text
 		this.getPostButton().onclick()		
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve, _) => {
 			setTimeout(() => {
 				const result = this.getLastPost().innerText
 				resolve({

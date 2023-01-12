@@ -1,8 +1,8 @@
 module.exports = {
     id: 'hw7',
     classroomName: 'დავალება 7',
-    deadline: '2021-12-23',
-    testFileName: '../../../jspilot/server-tests/hw7/server.js',
+    deadline: '2023-01-08',
+    testFileName: '../../../jspilot/server-tests/christmas-tree/server.js',
     module: 'web',
     emailTemplates: {}
 }  

@@ -1,4 +1,4 @@
-var testConfig = {
+const testConfig = {
 	commentInputId: 'comment_input_text',
 	newCommentButton: 'new_comment',
 	commentsContainerId: 'comments_container',
@@ -6,8 +6,8 @@ var testConfig = {
 	comment: 'comment_container',
 	commentText: 'comment_text'
 }
-var expect = chai.expect
-var assert = chai.assert
+const expect = chai.expect
+const assert = chai.assert
 class Tester {
 	constructor() {
 		this.postElem = ''
@@ -18,7 +18,7 @@ class Tester {
 		input.value = Math.random()*1000
 		const button = document.querySelector(`button#new_post`)
 		button.onclick()
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve, _) => {
 			setTimeout(() => {
 				this.postElem = this.getFirstPost()
 				resolve(this.postElem)
@@ -65,7 +65,7 @@ class Tester {
 		const text = Math.random()*100000
 		this.getCommentsInput().value = text
 		this.getCommentButton().onclick()
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve, _) => {
 			setTimeout(() => {
 				const result = this.getLastComment().innerText
 				resolve({

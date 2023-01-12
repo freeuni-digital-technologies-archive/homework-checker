@@ -13,7 +13,7 @@ function getWorld(size, fence_y, door_x) {
     const walls = []
 
 	 for (let i = 1; i <= size; i++){
-		 if(i==door_x)continue;
+		 if(i === door_x)continue;
 		 walls.push([[i, fence_y], [i, fence_y+1]]);
 	 }
 
