@@ -36,7 +36,13 @@ export class GoogleClassroom implements Classroom {
                     if (!this.studentList.getStudentById(response.userId!)) {
                         this.getStudentProfile(response.userId!)
                             .then(studentProfile => this.studentList.add(studentProfile))
-                            .catch(err => console.log(err))
+                            .catch(err => {
+                                if (err.response.status === 403) {
+                                    console.error("could not download profile for user " + response.userId)
+                                } else {
+                                    console.error("unknown error occurred", err)
+                                }
+                            })
                     }
                 })
                 return submissions
