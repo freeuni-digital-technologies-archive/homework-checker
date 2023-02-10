@@ -26,7 +26,8 @@ export class Submission {
 		public emailAddress: string,
 		public state: string,
 		public alternateLink: string,
-		private late?: boolean
+		private late?: boolean,
+		public classroomScore?: number
 	) {
 		this.results = []
 	}
