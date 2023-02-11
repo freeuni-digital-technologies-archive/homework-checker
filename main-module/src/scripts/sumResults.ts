@@ -2,7 +2,7 @@ import fs from 'fs'
 import path from 'path'
 import {readHomeworkConfiguration} from '../homework'
 import {mergeResults} from '../partitions'
-import {logProjectResults, ProjectResult } from "./sumProjectResults";
+import {flattenProjectResults, ProjectResult} from "./sumProjectResults";
 import {ProjectsInfo} from "../types/projectsInfo";
 import fse from "fs-extra";
 import {defaultPaths} from "../config";
@@ -24,10 +24,10 @@ export function summarizeResults(
     studentNames.forEach(s => results[s] = {sum: 0})
     addHomeworkResults(results, studentNames, homeworksPath)
     try {
-        const projectResults = JSON.parse(fse.readFileSync(defaultPaths.project.info, 'utf-8'))
+        const projectResults = JSON.parse(fse.readFileSync(defaultPaths.project.scores, 'utf-8'))
             .map((e: any) => new ProjectResult(e))
         const pi = new ProjectsInfo(defaultPaths.project.info, defaultPaths.project.files)
-        logProjectResults(projectResults, pi)
+        addProjectResults(results, projectResults, pi)
     } catch {}
     addManualResults(results, studentNames, manualResultsPath)
     studentNames.forEach(emailId => {
@@ -179,6 +179,14 @@ export function convertToCsv(resultsList: any) {
         return `${emailId},${results.join(',')}`
     }).join('\n')
     return csv
+}
+
+function addProjectResults(results: any, projectResults: ProjectResult[], pi: ProjectsInfo) {
+   flattenProjectResults(projectResults, pi)
+        .map(e => {
+            const { result, emailId } = e
+            results[emailId]['project'] = result.sum()
+        })
 }
 
 if (require.main == module) {
