@@ -26,7 +26,8 @@ export class Submission {
 		public emailAddress: string,
 		public state: string,
 		public alternateLink: string,
-		private late?: boolean
+		private late?: boolean,
+		public classroomGrade?: number
 	) {
 		this.results = []
 	}
@@ -35,7 +36,7 @@ export class Submission {
 		return Submission.turnedIn(this)
 	}
 	public onTime() {
-		return this.turnedIn() && !this.late
+		return (this.classroomGrade !== undefined || this.turnedIn()) && !this.late
 	}
 	public setAttachment(a: Attachment, timeStamp: Date) {
 		this.attachment = a
