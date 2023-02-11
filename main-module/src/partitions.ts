@@ -21,7 +21,7 @@ const partitions: Partitions<(s: S) => boolean> = {
     notSubmitted: (s: S) => !s.turnedIn() && !s.classroomGrade,
     late: (s: S) => !s.onTime(),
     invalid: (s: S) => s.incorrectFormat || false,
-    error: (s: S) => s.hasErrors(),
+    error: (s: S) => !s.classroomGrade && s.hasErrors(),
     failed: (s: S) => !s.passed(),
     passed: (s: S) => s.passed(),
     // rest
